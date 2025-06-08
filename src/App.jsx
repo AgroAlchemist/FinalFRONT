@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
@@ -13,10 +13,13 @@ import CropRecommendation from "./components/CropRecommendation";
 import RentalForm from "./components/RentalForm";
 import RentalList from "./components/RentalsList";
 import RentalsList from "./components/RentalsList";
+import Landing from './pages/Landing';
+import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const location = useLocation();
 
   // Check if the user is authenticated on component mount
   useEffect(() => {
@@ -28,12 +31,15 @@ const App = () => {
     }
   }, []);
 
+  // Don't show Navbar on landing page
+  const showNavbar = location.pathname !== '/';
+
   return (
     <>
-      <Navbar />
+      {showNavbar && <Navbar />}
       <div className="container">
         <Routes>
-          <Route path="/" element={<h1>Welcome to Farmers Portal</h1>} />
+          <Route path="/" element={<Landing />} />
           <Route path="/crops" element={<CropList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
