@@ -78,7 +78,10 @@ const Dashboard = () => {
         <div className="profile-header">
           <div className="profile-image">
             <img
-              src={profile.profile_image || "default-profile.png"}
+              src={
+                profile.profile_image ||
+                "https://img.freepik.com/free-vector/farmer-using-technology-digital-agriculture_53876-113813.jpg?semt=ais_hybrid"
+              }
               alt={profile.name}
               onError={(e) => {
                 e.target.onerror = null;

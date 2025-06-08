@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import Trail from "./pages/Trail";
 import CropList from "./components/CropList";
 import AddCrop from "./components/AddCrop";
 import FarmerList from "./components/FarmerList";
@@ -13,6 +13,7 @@ import CropRecommendation from "./components/CropRecommendation";
 import RentalForm from "./components/RentalForm";
 import RentalList from "./components/RentalsList";
 import RentalsList from "./components/RentalsList";
+import Welcome from "./components/Welcome";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,7 +34,7 @@ const App = () => {
       <Navbar />
       <div className="container">
         <Routes>
-          <Route path="/" element={<h1>Welcome to Farmers Portal</h1>} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/crops" element={<CropList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -45,7 +46,7 @@ const App = () => {
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <Dashboard /> : <Login />}
+            element={isAuthenticated ? <Trail /> : <Login />}
           />
 
           <Route
