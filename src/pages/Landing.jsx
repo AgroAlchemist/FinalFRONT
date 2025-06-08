@@ -8,13 +8,25 @@ const Landing = () => {
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
-  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [userType, setUserType] = useState('user');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
+  });
+
+  // Signup modal state
+  const [signupType, setSignupType] = useState('user');
+  const [signupError, setSignupError] = useState('');
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [signupForm, setSignupForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    location: '', // for farmers
+    address: '',  // for users
   });
 
   useEffect(() => {
@@ -34,6 +46,12 @@ const Landing = () => {
       ...prev,
       [id]: value
     }));
+  };
+
+  // Signup form input handler
+  const handleSignupChange = (e) => {
+    const { name, value } = e.target;
+    setSignupForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleLoginSubmit = async (e) => {
@@ -70,10 +88,39 @@ const Landing = () => {
     }
   };
 
+  // Signup submit handler
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    setSignupLoading(true);
+    setSignupError('');
+    try {
+      const endpoint =
+        signupType === 'farmer'
+          ? 'http://localhost:3000/farmer/register'
+          : 'http://localhost:3000/users/register';
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupForm),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSignupLoading(false);
+        setShowSignupModal(false);
+        navigate('/login');
+      } else {
+        setSignupLoading(false);
+        setSignupError(data.error || 'Registration failed');
+      }
+    } catch (err) {
+      setSignupLoading(false);
+      setSignupError('Failed to connect to server');
+    }
+  };
+
   const handleForgotPasswordSubmit = (e) => {
     e.preventDefault();
     const email = document.getElementById('resetEmail').value;
-    console.log('Password reset requested for:', email);
     alert(`If an account exists for ${email}, you will receive password reset instructions.`);
     setShowForgotPasswordModal(false);
   };
@@ -219,51 +266,113 @@ const Landing = () => {
         </div>
       )}
 
-      {/* Forgot Password Modal */}
-      {showForgotPasswordModal && (
-        <div className="modal" onClick={() => setShowForgotPasswordModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <span className="close" onClick={() => setShowForgotPasswordModal(false)}>&times;</span>
-            <h2>Reset Password</h2>
-            <p className="reset-instructions">Enter your email address and we'll send you instructions to reset your password.</p>
-            <form onSubmit={handleForgotPasswordSubmit}>
-              <div className="form-group">
-                <label htmlFor="resetEmail">Email Address</label>
-                <input type="email" id="resetEmail" required />
-              </div>
-              <button type="submit" className="submit-btn">Send Reset Link</button>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* Signup Modal */}
       {showSignupModal && (
         <div className="modal" onClick={() => setShowSignupModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <span className="close" onClick={() => setShowSignupModal(false)}>&times;</span>
             <h2>Sign Up</h2>
-            <form>
+            {signupError && <div className="error-message">{signupError}</div>}
+            <form onSubmit={handleSignupSubmit}>
               <div className="form-group">
-                <label htmlFor="signupName">Full Name</label>
-                <input type="text" id="signupName" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="signupEmail">Email</label>
-                <input type="email" id="signupEmail" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="signupPassword">Password</label>
-                <input type="password" id="signupPassword" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="userType">I am a:</label>
-                <select id="userType" required>
-                  <option value="user">Buyer/User</option>
+                <label>Register as:</label>
+                <select
+                  value={signupType}
+                  onChange={e => setSignupType(e.target.value)}
+                  disabled={signupLoading}
+                >
+                  <option value="user">User</option>
                   <option value="farmer">Farmer</option>
                 </select>
               </div>
-              <button type="submit" className="submit-btn">Sign Up</button>
+              <div className="form-group">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={signupForm.name}
+                  onChange={handleSignupChange}
+                  required
+                  disabled={signupLoading}
+                />
+              </div>
+              <div className="form-group">
+                <label>Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={signupForm.email}
+                  onChange={handleSignupChange}
+                  required
+                  disabled={signupLoading}
+                />
+              </div>
+              <div className="form-group">
+                <label>Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={signupForm.password}
+                  onChange={handleSignupChange}
+                  required
+                  disabled={signupLoading}
+                />
+              </div>
+              <div className="form-group">
+                <label>Phone:</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={signupForm.phone}
+                  onChange={handleSignupChange}
+                  required
+                  disabled={signupLoading}
+                />
+              </div>
+              {signupType === 'farmer' ? (
+                <div className="form-group">
+                  <label>Farm Location:</label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={signupForm.location}
+                    onChange={handleSignupChange}
+                    required
+                    disabled={signupLoading}
+                  />
+                </div>
+              ) : (
+                <div className="form-group">
+                  <label>Delivery Address:</label>
+                  <textarea
+                    name="address"
+                    value={signupForm.address}
+                    onChange={handleSignupChange}
+                    required
+                    disabled={signupLoading}
+                  />
+                </div>
+              )}
+              <button type="submit" className="submit-btn" disabled={signupLoading}>
+                {signupLoading ? 'Signing up...' : 'Sign Up'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Forgot Password Modal */}
+      {showForgotPasswordModal && (
+        <div className="modal" onClick={() => setShowForgotPasswordModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <span className="close" onClick={() => setShowForgotPasswordModal(false)}>&times;</span>
+            <h2>Forgot Password</h2>
+            <form onSubmit={handleForgotPasswordSubmit}>
+              <div className="form-group">
+                <label htmlFor="resetEmail">Email</label>
+                <input type="email" id="resetEmail" required />
+              </div>
+              <button type="submit" className="submit-btn">Reset Password</button>
             </form>
           </div>
         </div>
