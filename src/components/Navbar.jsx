@@ -1,10 +1,38 @@
 import { Link, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Flex,
+  Button,
+  Heading,
+  HStack,
+  useColorModeValue,
+  Container,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  VStack,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role"); // 'farmer' or 'user'
   const isAuthenticated = !!token; // Simplified check
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const hoverBg = useColorModeValue("gray.50", "gray.700");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -16,142 +44,135 @@ const Navbar = () => {
 
   // console.log("Current role:", role);
 
-  return (
-    <nav
-      style={{
-        padding: "15px 30px",
-        backgroundColor: "#f8f9fa",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          maxWidth: "1200px",
-          margin: "0 auto",
-        }}
+  const NavLink = ({ to, children }) => (
+    <Link to={to}>
+      <Button
+        variant="ghost"
+        colorScheme="blue"
+        size="md"
+        _hover={{ bg: hoverBg }}
+        fontWeight="medium"
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <h2 style={{ margin: 0 }}>Portal for farmers</h2>
-          {isAuthenticated && (
-            <Link to="/dashboard" style={{ margin: "0 10px" }}>
-              Dashboard
-            </Link>
-          )}
-          <style>{`
-            .navbar-button {
-              border: 1px solid #213547;
-              border-radius: 5px;
-              padding: 5px 10px;
-              text-decoration: none;
-              color: #213547;
-            }
-          `}</style>
-          <Link
-            to="/crops"
-            className="navbar-button"
-            style={{ margin: "0 10px" }}
-          >
-            Crops
-          </Link>
-          <Link
-            to="/farmers"
-            className="navbar-button"
-            style={{ margin: "0 10px" }}
-          >
-            Farmers
-          </Link>
-        </div>
+        {children}
+      </Button>
+    </Link>
+  );
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-          }}
-        >
-          {isAuthenticated ? (
-            <>
-              {role === "farmer" && (
-                <>
-                  <Link
-                    to="/add-crop"
-                    className="navbar-button"
-                    style={{ margin: "0 10px" }}
-                  >
-                    Add Crop
-                  </Link>
-                  <Link
-                    to="/rental-form"
-                    className="navbar-button"
-                    style={{ margin: "0 10px" }}
-                  >
-                    Rent
-                  </Link>
-                  <Link
-                    to="/rentals"
-                    className="navbar-button"
-                    style={{ margin: "0 10px" }}
-                  >
-                    View Properties for Rent
-                  </Link>
+  const NavContent = () => (
+    <>
+      <Heading size="md" color="blue.600">
+        Portal for farmers
+      </Heading>
+      <HStack spacing={2}>
+        {isAuthenticated && <NavLink to="/dashboard">Dashboard</NavLink>}
+        <NavLink to="/crops">Crops</NavLink>
+        <NavLink to="/farmers">Farmers</NavLink>
+        <NavLink to="/ai-chat">AI Chat</NavLink>
+      </HStack>
+    </>
+  );
 
-                  <Link
-                    to="/crop-recommendation"
-                    className="navbar-button"
-                    style={{ margin: "0 10px" }}
-                  >
-                    Crop Recommendation
-                  </Link>
-                </>
-              )}
-              <button
-                onClick={handleLogout}
-                style={{
-                  padding: "8px 16px",
-                  backgroundColor: "#dc3545",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                style={{
-                  padding: "8px 16px",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  textDecoration: "none",
-                  borderRadius: "4px",
-                }}
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                style={{
-                  padding: "8px 16px",
-                  backgroundColor: "#28a745",
-                  color: "white",
-                  textDecoration: "none",
-                  borderRadius: "4px",
-                }}
-              >
-                Signup
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
+  const FarmerLinks = () => (
+    <>
+      <NavLink to="/add-crop">Add Crop</NavLink>
+      <NavLink to="/rental-form">Rent</NavLink>
+      <NavLink to="/rentals">View Properties for Rent</NavLink>
+      <NavLink to="/crop-recommendation">Crop Recommendation</NavLink>
+    </>
+  );
+
+  const AuthButtons = () => (
+    <HStack spacing={4}>
+      {isAuthenticated ? (
+        <>
+          {role === "farmer" && <FarmerLinks />}
+          <Button
+            colorScheme="red"
+            variant="solid"
+            onClick={handleLogout}
+            size="md"
+          >
+            Logout
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            as={Link}
+            to="/login"
+            colorScheme="blue"
+            variant="solid"
+            size="md"
+          >
+            Login
+          </Button>
+          <Button
+            as={Link}
+            to="/signup"
+            colorScheme="green"
+            variant="solid"
+            size="md"
+          >
+            Signup
+          </Button>
+        </>
+      )}
+    </HStack>
+  );
+
+  return (
+    <Box
+      as="nav"
+      position="sticky"
+      top={0}
+      zIndex={1000}
+      bg={bgColor}
+      borderBottom="1px"
+      borderColor={borderColor}
+      boxShadow="sm"
+    >
+      <Container maxW="container.xl">
+        <Flex h={16} alignItems="center" justifyContent="space-between" px={4}>
+          {/* Desktop Navigation */}
+          <Flex
+            alignItems="center"
+            gap={8}
+            display={{ base: "none", md: "flex" }}
+          >
+            <NavContent />
+          </Flex>
+
+          {/* Mobile Navigation Button */}
+          <IconButton
+            display={{ base: "flex", md: "none" }}
+            onClick={onOpen}
+            variant="ghost"
+            aria-label="Open menu"
+            icon={<HamburgerIcon />}
+          />
+
+          {/* Desktop Auth Buttons */}
+          <Box display={{ base: "none", md: "flex" }}>
+            <AuthButtons />
+          </Box>
+        </Flex>
+      </Container>
+
+      {/* Mobile Drawer */}
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">Menu</DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="stretch">
+              <NavContent />
+              <AuthButtons />
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Box>
   );
 };
 

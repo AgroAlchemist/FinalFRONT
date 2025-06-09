@@ -76,10 +76,29 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="profile-section">
         <div className="profile-header">
-          <div className="profile-image">
+          <div
+            className="profile-image"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
             <img
-              src={profile.profile_image || "default-profile.png"}
+              src={
+                profile.profile_image ||
+                "https://assets.klapty.com/uploads/ProfileImages/ProfileImages_1639572652_1760921434.png"
+              }
               alt={profile.name}
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: "3px solid #28a745",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              }}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = "/default-avatar.png";

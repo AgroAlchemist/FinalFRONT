@@ -177,8 +177,8 @@ const Landing = () => {
             </div>
             <div className="feature-card">
               <FaChartLine />
-              <h3>Market Insights</h3>
-              <p>Stay updated with market trends</p>
+              <h3>AI Chat</h3>
+              <p>Stay updated with our AI chatbot</p>
             </div>
           </div>
         </section>

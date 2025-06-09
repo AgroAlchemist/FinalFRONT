@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
@@ -13,8 +13,10 @@ import CropRecommendation from "./components/CropRecommendation";
 import RentalForm from "./components/RentalForm";
 import RentalList from "./components/RentalsList";
 import RentalsList from "./components/RentalsList";
-import Landing from './pages/Landing';
-import './App.css';
+import Landing from "./pages/Landing";
+import AiChat from "./pages/AiChat";
+import WeatherWidget from "./components/WeatherWidget";
+import "./App.css";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,10 +34,11 @@ const App = () => {
   }, []);
 
   // Don't show Navbar on landing page
-  const showNavbar = location.pathname !== '/';
+  const showNavbar = location.pathname !== "/";
 
   return (
     <>
+      <WeatherWidget />
       {showNavbar && <Navbar />}
       <div className="container">
         <Routes>
@@ -82,6 +85,8 @@ const App = () => {
               )
             }
           />
+
+          <Route path="/ai-chat" element={<AiChat />} />
 
           {/* Catch all route for 404 */}
           <Route
