@@ -57,10 +57,10 @@ const AddCrop = () => {
 
   return (
     <div className="add-crop-form">
-      <h2>List New Crop for Sale</h2>
+      <h2>List New Product for Sale</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Crop Name:</label>
+          <label>Product Name:</label>
           <input
             type="text"
             name="crop_name"
@@ -112,7 +112,7 @@ const AddCrop = () => {
         </div>
 
         <div className="form-group">
-          <label>Harvest Date:</label>
+          <label>Harvest Date or Manufacturing Date:</label>
           <input
             type="date"
             name="harvest_date"
@@ -145,7 +145,7 @@ const AddCrop = () => {
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? "Adding..." : "List Crop"}
+          {loading ? "Adding..." : "List Product"}
         </button>
       </form>
       {message && <p className="message">{message}</p>}

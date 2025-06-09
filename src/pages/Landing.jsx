@@ -118,10 +118,6 @@ const Landing = () => {
 
   return (
     <div className="landing-page">
-      <div className="scroll-indicator">
-        <FaAngleDown />
-      </div>
-
       <header>
         <nav>
           <div className="logo">
@@ -166,19 +162,19 @@ const Landing = () => {
               <p>Track and manage your crops efficiently</p>
             </div>
             <div className="feature-card">
-              <FaCloudSunRain />
-              <h3>Weather Updates</h3>
-              <p>Real-time weather forecasts for better planning</p>
-            </div>
-            <div className="feature-card">
               <FaUsers />
-              <h3>Community</h3>
-              <p>Connect with fellow farmers</p>
+              <h3>E-Commerce</h3>
+              <p>Connect with fellow farmers to buy and rent products</p>
             </div>
             <div className="feature-card">
               <FaChartLine />
               <h3>AI Chat</h3>
               <p>Stay updated with our AI chatbot</p>
+            </div>
+            <div className="feature-card">
+              <FaCloudSunRain />
+              <h3>Weather Updates</h3>
+              <p>Real-time weather forecasts for better planning</p>
             </div>
           </div>
         </section>
@@ -220,6 +216,52 @@ const Landing = () => {
                 src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                 alt="Farming landscape"
               />
+            </div>
+          </div>
+        </section>
+
+        <section id="developers">
+          <h2>Our Team</h2>
+          <div className="developers-grid">
+            <div className="developer-card">
+              <div className="developer-image">
+                <img
+                  src="https://i.ibb.co/4ZYhSrKJ/Whats-App-Image-2025-06-09-at-22-54-17-7f21b7a8.jpg"
+                  alt="Developer"
+                />
+              </div>
+              <h3>Omkar Kulkarni</h3>
+              <p>+91 9156736719</p>
+            </div>
+            <div className="developer-card">
+              <div className="developer-image">
+                <img
+                  src="https://i.ibb.co/hJkPSLxd/Whats-App-Image-2025-06-09-at-22-35-36-f1acbb97.jpg"
+                  alt="Developer"
+                />
+              </div>
+              <h3>Pranav Badhe</h3>
+              <p>+91 8788073439</p>
+            </div>
+            <div className="developer-card">
+              <div className="developer-image">
+                <img
+                  src="https://i.ibb.co/G3fFRV1d/Whats-App-Image-2025-06-09-at-22-32-24-76cb9ea4.jpg"
+                  alt="Developer"
+                />
+              </div>
+              <h3>Sahil Bheke</h3>
+              <p>+91 8856026645</p>
+            </div>
+            <div className="developer-card">
+              <div className="developer-image">
+                <img
+                  src="https://i.ibb.co/tMVKHrNS/Whats-App-Image-2025-06-09-at-22-43-38-48615fa4.jpg"
+                  alt="Developer"
+                />
+              </div>
+              <h3>Mohit Mowade</h3>
+              <p>+91 7058234337</p>
             </div>
           </div>
         </section>

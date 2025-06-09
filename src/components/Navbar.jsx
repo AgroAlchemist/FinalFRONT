@@ -65,7 +65,7 @@ const Navbar = () => {
       </Heading>
       <HStack spacing={2}>
         {isAuthenticated && <NavLink to="/dashboard">Dashboard</NavLink>}
-        <NavLink to="/crops">Crops</NavLink>
+        <NavLink to="/crops">Products</NavLink>
         <NavLink to="/farmers">Farmers</NavLink>
         <NavLink to="/ai-chat">AI Chat</NavLink>
       </HStack>
@@ -74,7 +74,7 @@ const Navbar = () => {
 
   const FarmerLinks = () => (
     <>
-      <NavLink to="/add-crop">Add Crop</NavLink>
+      <NavLink to="/add-crop">Add Product</NavLink>
       <NavLink to="/rental-form">Rent</NavLink>
       <NavLink to="/rentals">View Properties for Rent</NavLink>
       <NavLink to="/crop-recommendation">Crop Recommendation</NavLink>

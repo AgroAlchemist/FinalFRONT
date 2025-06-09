@@ -208,6 +208,69 @@ nav {
   border-radius: 10px;
 }
 
+/* Developers Section */
+#developers {
+  padding: 5rem 2rem;
+  background: #f9f9f9;
+}
+
+#developers h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: #2c3e50;
+}
+
+.developers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.developer-card {
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.developer-card:hover {
+  transform: translateY(-5px);
+}
+
+.developer-image {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #27ae60;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.developer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.developer-card:hover .developer-image img {
+  transform: scale(1.1);
+}
+
+.developer-card h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.developer-card p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
 /* Modal Styles */
 .modal {
   position: fixed;
